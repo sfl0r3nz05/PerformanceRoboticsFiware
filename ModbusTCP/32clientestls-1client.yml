@@ -126,8 +126,7 @@ services:
     container_name: autoserver
     command: sh -c "
       sed -i 's|localhost|0.0.0.0|g' synchronous_client.py;
-      python3 synchronous_client.py daemon off
-      "
+      python3 synchronous_client.py daemon off"
     ports:
       - "8020:8020"
     restart: unless-stopped

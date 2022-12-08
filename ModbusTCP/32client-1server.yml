@@ -126,8 +126,7 @@ services:
     container_name: autoserver
     command: sh -c "
       sed -i 's|localhost|0.0.0.0|g' sincserver.py;
-      python3 sincserver.py daemon off
-      "
+      python3 sincserver.py daemon off"
     ports:
       - "5020:5020"
     restart: unless-stopped
