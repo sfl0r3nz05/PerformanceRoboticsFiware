@@ -1,0 +1,456 @@
+version: '2.1'
+networks:
+  monitor-net:
+    driver: bridge
+volumes:
+    prometheus_data: {}
+    grafana_data: {}
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+    expose:
+      - 9090
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
+    volumes:
+      - ./alertmanager:/etc/alertmanager
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+    restart: unless-stopped
+    expose:
+      - 9093
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"
+  nodeexporter:
+    image: prom/node-exporter:latest
+    container_name: nodeexporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+    restart: unless-stopped
+    expose:
+      - 9100
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"
+  cadvisor:
+    image: gcr.io/google-containers/cadvisor:latest
+    container_name: cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+      - /cgroup:/sys/fs/cgroup:ro
+    restart: unless-stopped
+    expose:
+      - 8080
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    restart: unless-stopped
+    expose:
+      - 3000
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"
+  pushgateway:
+    image: prom/pushgateway:latest
+    container_name: pushgateway
+    restart: unless-stopped
+    expose:
+      - 9091
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"
+  caddy:
+    image: stefanprodan/caddy
+    container_name: caddy
+    ports:
+      - "3000:3000"
+      - "9090:9090"
+      - "9093:9093"
+      - "9091:9091"
+    volumes:
+      - ./caddy:/etc/caddy
+    environment:
+      - ADMIN_USER=${ADMIN_USER:-admin}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"
+  autoserver:
+    image: 19mikel95/pymodmikel:autoservtls
+    container_name: autoserver
+    command: sh -c "
+      sed -i 's|localhost|0.0.0.0|g' synchronous_client.py;
+      python3 synchronous_client.py daemon off
+      "
+    ports:
+      - "8020:8020"
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    mem_limit: 256m
+  clientperf1:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf1
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf2:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf2
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf3:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf3
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf4:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf4
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf5:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf5
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf6:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf6
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf7:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf7
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf8:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf8
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf9:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf9
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf10:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf10
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf11:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf11
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf12:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf12
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf13:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf13
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf14:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf14
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf15:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf15
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf16:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf16
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf17:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf17
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf18:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf18
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf19:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf19
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf20:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf20
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf21:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf21
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf22:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf22
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf23:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf23
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf24:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf24
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf25:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf25
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf26:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf26
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf27:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf27
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf28:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf28
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf29:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf29
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf30:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf30
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf31:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf31
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
+  clientperf32:
+    image: 19mikel95/pymodmikel:autoawsclient
+    container_name: clientperf32
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    depends_on:
+      - autoserver
+    environment:
+      - AUTO_SERVER_HOST=autoserver
