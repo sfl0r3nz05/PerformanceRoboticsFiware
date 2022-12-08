@@ -15,3 +15,17 @@
    ```console
    docker compose -f 1client-1server.yml up
    ```
+
+3. Sample of request per seconds:
+
+   ![image](./images/req_x_sec.jpg)
+
+4. Preliminary results:
+
+   | No. Clients | Min (req./s) | Max (req./s) |
+   |:-----------:|:------------:|:------------:|
+   |      1      |     1428     |     2010     |
+   |      4      |      132     |      510     |
+   |      8      |      66      |      286     |
+   |      16     |      29      |      98      |
+   |      32     |      38      |      44      |
