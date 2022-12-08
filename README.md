@@ -8,6 +8,8 @@ This project seeks the collection of tools that allow performance measurements i
 
 ## Field Devices
 
+- [Performance in Field Devices](./documentation/performanceFieldDevices.md)
+
 ## MEC
 
 - [Performance in MEC](./documentation/performanceMEC.md)
