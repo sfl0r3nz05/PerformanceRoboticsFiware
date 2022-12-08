@@ -1,6 +1,6 @@
 # Performance in MEC
 
-![performance](../images/performance_question.png)
+![performance](./images/performance_question.png)
 
 ## Determine the connection performance of MQTT clients on the Fiware broker (Δt<sub>1</sub>)
 
