@@ -4,7 +4,7 @@
 
 In the context of these performance tests the Modbus server represents the PLC while the client represents both the Robotic Arm and the AGV.
 
-1. [How to build a client to conduct performance test](../ModbusTCP/README.md)
+1. [How to build a client to conduct performance test.](../ModbusTCP/README.md)
 
 ### How to run the performance test
 
