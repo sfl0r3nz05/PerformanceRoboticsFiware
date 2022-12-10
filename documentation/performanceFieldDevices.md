@@ -4,6 +4,8 @@
 
 In the context of these performance tests the Modbus server represents the PLC while the client represents both the Robotic Arm and the AGV.
 
+1. [How to build a client to conduct performance test](../ModbusTCP/README.md)
+
 ### How to run the performance test
 
 1. Go to ModbusTCP directory:
@@ -33,19 +35,3 @@ In the context of these performance tests the Modbus server represents the PLC w
    |      8      |      66      |      286     |
    |      16     |      29      |      98      |
    |      32     |      38      |      44      |
-
-### How to build a client to conduct performance test
-
-1. Modify the performance.py file. E.g., Add the host ip (PLC IP) in the line 45:
-
-   ```console
-   host = 'autoserver'
-   ```
-
-2. Build the new docker image. E.g.:
-
-   ```console
-   docker build -t username/registry:tag .
-   ```
-
-3. Modify the image field of all docker compose files, adding the built image for each `clientperf`.

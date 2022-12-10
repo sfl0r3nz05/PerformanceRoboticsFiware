@@ -6,7 +6,7 @@ The [MQTT-benchmark](https://github.com/krylovsk/mqtt-benchmark) tool, which has
 
   ![go-mqtt-bm](./images/go-mqtt-bm.png)
 
-1. [How to build the docker container](../MQTT/go-mqtt-bm/mqtt-benchmark-docker.md)
+1. [How to build the docker container](../MQTT/go-mqtt-bm/README.md)
 
 2. Use the *mqtt-benchmark* tool:
 
@@ -70,7 +70,7 @@ The [MQTT-benchmark](https://github.com/krylovsk/mqtt-benchmark) tool, which has
 
   ![go-mqtt-bm](./images/mqtt-client.png)
 
-1. [How efrecon mqtt-client works](../MQTT/efrecon-mqtt-client/efrecon-mqtt-client.md)
+1. [How efrecon mqtt-client works](../MQTT/efrecon-mqtt-client/README.md)
 2. Use the *efrecon mqtt-client* tool:
 
     ```console
