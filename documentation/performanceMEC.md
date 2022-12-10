@@ -1,10 +1,10 @@
 # Performance in MEC
 
-![performance](./images/performance_question.png)
-
-## Determine the connection performance of MQTT clients on the Fiware broker (Δt<sub>1</sub>)
+## Determine the connection performance of MQTT clients on the Fiware broker
 
 The [MQTT-benchmark](https://github.com/krylovsk/mqtt-benchmark) tool, which has been dockerized for use in this project, is used to measure the performance of message publishing over an MQTT broker.
+
+  ![go-mqtt-bm](./images/go-mqtt-bm.png)
 
 1. [How to build the docker container](../MQTT/mqtt-benchmark-docker.md)
 
@@ -63,7 +63,9 @@ The [MQTT-benchmark](https://github.com/krylovsk/mqtt-benchmark) tool, which has
     }
     ```
 
-## Determine the time taken for Grafana to consume a message (Δt<sub>6</sub>)
+## Determine the time taken for Grafana to consume a message
+
+  ![go-mqtt-bm](./images/mqtt-client.png)
 
 - As mentioned above, Grafana is a service that connects to the CrateDB database, which ensures data persistence.
 - The performance test consists of determining the time it takes Grafana to consume published MQTT messages.
