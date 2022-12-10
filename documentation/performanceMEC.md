@@ -74,9 +74,9 @@ The [MQTT-benchmark](https://github.com/krylovsk/mqtt-benchmark) tool, which has
 2. Use the *efrecon mqtt-client* tool:
 
     ```console
-    docker run -it --rm --name mqtt-publisher --network \
-      fiware_default efrecon/mqtt-client pub -h mosquitto -m "c|19" \
-      -t "/ul/4jggokgpepnvsb2uv4s40d59ov/motion001/attrs" \
+    docker run -it --rm --name mqtt-publisher \
+      efrecon/mqtt-client pub -h 172.31.85.246 -p 8883 -m '{"AGV_Th":7}' \
+      -t "/4jggokgpepnvsb2uv4s40d59ov/motion001/attrs" \
       --repeat 10 --repeat-delay 1 -d
     ```
 
@@ -85,16 +85,16 @@ The [MQTT-benchmark](https://github.com/krylovsk/mqtt-benchmark) tool, which has
       ```console
       Client (null) sending CONNECT
       Client (null) received CONNACK (0)
-      Client (null) sending PUBLISH (d0, q0, r0, m1, '/ul/4jggokgpepnvsb2uv4s40d59ov/motion001/attrs', ... (4 bytes))
-      Client (null) sending PUBLISH (d0, q0, r0, m2, '/ul/4jggokgpepnvsb2uv4s40d59ov/motion001/attrs', ... (4 bytes))
-      Client (null) sending PUBLISH (d0, q0, r0, m3, '/ul/4jggokgpepnvsb2uv4s40d59ov/motion001/attrs', ... (4 bytes))
-      Client (null) sending PUBLISH (d0, q0, r0, m4, '/ul/4jggokgpepnvsb2uv4s40d59ov/motion001/attrs', ... (4 bytes))
-      Client (null) sending PUBLISH (d0, q0, r0, m5, '/ul/4jggokgpepnvsb2uv4s40d59ov/motion001/attrs', ... (4 bytes))
-      Client (null) sending PUBLISH (d0, q0, r0, m6, '/ul/4jggokgpepnvsb2uv4s40d59ov/motion001/attrs', ... (4 bytes))
-      Client (null) sending PUBLISH (d0, q0, r0, m7, '/ul/4jggokgpepnvsb2uv4s40d59ov/motion001/attrs', ... (4 bytes))
-      Client (null) sending PUBLISH (d0, q0, r0, m8, '/ul/4jggokgpepnvsb2uv4s40d59ov/motion001/attrs', ... (4 bytes))
-      Client (null) sending PUBLISH (d0, q0, r0, m9, '/ul/4jggokgpepnvsb2uv4s40d59ov/motion001/attrs', ... (4 bytes))
-      Client (null) sending PUBLISH (d0, q0, r0, m10, '/ul/4jggokgpepnvsb2uv4s40d59ov/motion001/attrs', ... (4 bytes))
+      Client (null) sending PUBLISH (d0, q0, r0, m1, '/4jggokgpepnvsb2uv4s40d59ov/agv001/attrs', ... (4 bytes))
+      Client (null) sending PUBLISH (d0, q0, r0, m2, '/4jggokgpepnvsb2uv4s40d59ov/agv001/attrs', ... (4 bytes))
+      Client (null) sending PUBLISH (d0, q0, r0, m3, '/4jggokgpepnvsb2uv4s40d59ov/agv001/attrs', ... (4 bytes))
+      Client (null) sending PUBLISH (d0, q0, r0, m4, '/4jggokgpepnvsb2uv4s40d59ov/agv001/attrs', ... (4 bytes))
+      Client (null) sending PUBLISH (d0, q0, r0, m5, '/4jggokgpepnvsb2uv4s40d59ov/agv001/attrs', ... (4 bytes))
+      Client (null) sending PUBLISH (d0, q0, r0, m6, '/4jggokgpepnvsb2uv4s40d59ov/agv001/attrs', ... (4 bytes))
+      Client (null) sending PUBLISH (d0, q0, r0, m7, '/4jggokgpepnvsb2uv4s40d59ov/agv001/attrs', ... (4 bytes))
+      Client (null) sending PUBLISH (d0, q0, r0, m8, '/4jggokgpepnvsb2uv4s40d59ov/agv001/attrs', ... (4 bytes))
+      Client (null) sending PUBLISH (d0, q0, r0, m9, '/4jggokgpepnvsb2uv4s40d59ov/agv001/attrs', ... (4 bytes))
+      Client (null) sending PUBLISH (d0, q0, r0, m10, '/4jggokgpepnvsb2uv4s40d59ov/agv001/attrs', ... (4 bytes))
       Client (null) sending DISCONNECT
       ```
 
