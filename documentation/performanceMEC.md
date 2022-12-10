@@ -14,7 +14,7 @@
 2. Use the *mqtt-benchmark* tool:
 
   ```console
-  mqtt-benchmark --broker=mqtt://localhost:1883 --topic="/ul/4jggokgpepnvsb2uv4s40d59ov/motion001/attrs"
+  mqtt-benchmark --broker=mqtt://localhost:1883 --topic="/4jggokgpepnvsb2uv4s40d59ov/agv001/attrs"
   ```
 
 - Output:
