@@ -104,7 +104,7 @@ The [MQTT-benchmark](https://github.com/krylovsk/mqtt-benchmark) tool, which has
 
     | Topic                                          | Payload | repeat (N) | repeat-delay (s) | Expected_time (s) | t0       | tf       | tf-t0(min) | tf-t0(s) |
     |------------------------------------------------|---------|------------|------------------|-------------------|----------|----------|------------|----------|
-    | /4jggokgpepnvsb2uv4s40d59ov/agv001/attrs | AGV_Th\|7   | 100        | 0.5              | 50                | 00:43:19 | 00:44:09 | 00:00:50   | 50       |
-    | /4jggokgpepnvsb2uv4s40d59ov/agv001/attrs | AGV_Th\|7   | 100        | 1                | 100               | 00:56:40 | 00:58:20 | 00:01:40   | 100      |
-    | /4jggokgpepnvsb2uv4s40d59ov/agv001/attrs | AGV_Th\|7   | 1000       | 0.5              | 500               | 01:05:45 | 01:14:24 | 00:08:39   | 519      |
-    | /4jggokgpepnvsb2uv4s40d59ov/agv001/attrs | AGV_Th\|7   | 1000       | 1                | 1000              | 01:20:59 | 01:37:47 | 00:16:48   | 1008     |
+    | /4jggokgpepnvsb2uv4s40d59ov/agv001/attrs | {"AGV_Th" : 7}   | 100        | 0.5              | 50                | 00:43:19 | 00:44:09 | 00:00:50   | 50       |
+    | /4jggokgpepnvsb2uv4s40d59ov/agv001/attrs | {"AGV_Th": 7}   | 100        | 1                | 100               | 00:56:40 | 00:58:20 | 00:01:40   | 100      |
+    | /4jggokgpepnvsb2uv4s40d59ov/agv001/attrs | {"AGV_Th" : 7}   | 1000       | 0.5              | 500               | 01:05:45 | 01:14:24 | 00:08:39   | 519      |
+    | /4jggokgpepnvsb2uv4s40d59ov/agv001/attrs | {"AGV_Th" : 7}   | 1000       | 1                | 1000              | 01:20:59 | 01:37:47 | 00:16:48   | 1008     |
